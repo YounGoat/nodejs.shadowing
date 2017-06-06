@@ -5,8 +5,7 @@ var MODULE_REQUIRE
 	, assert = require('assert')
 
 	/* NPM */
-	, colors = require('colors')
-
+	
 	/* in-package */
 	, shadowing = require('..')
 	;
