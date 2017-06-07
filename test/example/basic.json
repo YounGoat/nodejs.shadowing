@@ -1,0 +1,14 @@
+[
+	[
+		{ "linkman": { "gender": "m" }, "city": "Shanghai" },
+		{ "linkman": { "gender": "m" } },
+		true,
+		"YES"
+	],
+	[
+		{ "gender": "m" },
+		{ "gender": "f" },
+		false,
+		"NO"
+	]
+]

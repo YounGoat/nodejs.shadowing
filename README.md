@@ -19,6 +19,7 @@ __Light-weighted object/array analyse tool.__
 *	[APIs](#apis)
 *	[Get Started](#get-started)
 *	[Move Forward](#move-forward)
+*	[Examples](#examples)
 
 ##	LINKS
 
@@ -54,6 +55,24 @@ shadowing(
 );
 // RETURN true
 ```
+
+##	Examples
+
+We offer some examples to explain how *shadowing* works. There will be an array of test cases in each example file. A test unit is also an array with four items:
+
+```javascript
+[
+	origin,  /* The origin object/array/others */
+	shadow,  /* The shadow to be tested */
+	ifValid, /* If the shadow is valid shadow to the origin according to shadowing */
+	description
+]
+```
+
+*	[Basic Usage](./test/example/basic.json)
+*	[Shadow of Arrays](./test/example/array.json)
+*	[Logic Operators](./test/example/operator.js)
+*	[Extrem Cases](./test/example/extrem.js)
 
 ##	Move Forward
 
@@ -182,9 +201,11 @@ shadowing( origin, [ { gender: 'male' }] );
 
 Sometime, we wanna make little changes. The module offers following ways for you to create shadows a little more adaptable,
 
-*	symbol __shadowing.EXIST__  
-*	shadowing.Shadow __shadowing.or( shadow1, shadow2 [, ...] )__
-*	shadowing.Shadow __shadowing.and( shadow1, shadow2 [, ...] )__
+*	*symbol* __shadowing.EXIST__  
+*	*shadowing.Shadow* __shadowing.or__( shadow1, shadow2 [, ...] )
+*	*shadowing.Shadow* __shadowing.and__( shadow1, shadow2 [, ...] )
+*	*shadowing.Shadow* __shadowing.has__( propertyName [, ...] )
+*	*shadowing.Shadow* __shadowing.hasnot__( propertyName [, ...] )
 
 ```javascript
 var shadow = {

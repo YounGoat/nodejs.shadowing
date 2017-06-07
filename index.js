@@ -112,4 +112,30 @@ shadowing.and = function() {
 	});
 };
 
+shadowing.has = function() {
+	var args = Array.from(arguments);
+	return new Shadow((value) => {
+		if (typeof value != 'object') return false;
+
+		var matched = true;
+		for (var i = 0; i < args.length && matched; i++) {
+			matched = value.hasOwnProperty(args[i]);
+		}
+		return matched;
+	});
+};
+
+shadowing.hasnot = function() {
+	var args = Array.from(arguments);
+	return new Shadow((value) => {
+		if (typeof value != 'object') return false;
+
+		var matched = true;
+		for (var i = 0; i < args.length && matched; i++) {
+			matched = !value.hasOwnProperty(args[i]);
+		}
+		return matched;
+	});
+};
+
 module.exports = shadowing;

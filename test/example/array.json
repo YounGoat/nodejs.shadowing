@@ -1,0 +1,20 @@
+[
+	[
+		[ 1, 2, 3 ],
+		[ 1 ],
+		true,
+		"Array FOO >>> BAR if FOO contains all items of BAR"
+	],
+	[
+		[ 1, 2, 3 ],
+		[ 4 ],
+		false,
+		"Arrry FOO not >>> BAR if BAR has item(s) not *shadowed* by any item of FOO"
+	],
+	[
+		[ { "gender": "m" }, { "gender": "f" } ],
+		[ { "gender": "f" } ],
+		true,
+		"Array FOO >>> BAR if for each item of BAR, there is some item(s) of FOO >>> it"
+	]
+]
