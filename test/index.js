@@ -5,9 +5,10 @@ var MODULE_REQUIRE
 	, assert = require('assert')
 
 	/* NPM */
+	, noda = require('noda')
 
 	/* in-package */
-	, shadowing = require('shadowing')
+	, shadowing = noda.inRequire('.')
 	;
 
 let unitGroups = {
