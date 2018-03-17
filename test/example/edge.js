@@ -1,3 +1,13 @@
+/**
+ * In each array:
+ * [ 
+ *   origin, 
+ *   shadow, 
+ *   shadowing(origin, shadow), 
+ *   description,
+ * ]
+ */
+
 module.exports = [
 	[
 		{},

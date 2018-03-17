@@ -1,4 +1,4 @@
-#	shadowing
+#     shadowing
 __Light-weighted object/array analyse tool.__
 
 [![total downloads of shadowing](https://img.shields.io/npm/dt/shadowing.svg)](https://www.npmjs.com/package/shadowing)
@@ -14,23 +14,17 @@ __Light-weighted object/array analyse tool.__
 
 ![Shadowing Logo](./docs/logo.png)
 
-##	Table of contents
+##	Table of Contents
 
-*	[APIs](#apis)
 *	[Get Started](#get-started)
+*	[APIs](#apis)
 *	[Move Forward](#move-forward)
+	*	[Deep Comparation Between Objects](#deep-comparation-between-objects)
+	*	[Shadow of Array](#shadow-of-array)
+	*	[More Than Strictly Equal](#more-than-strictly-equal)
 *	[Examples](#examples)
-
-##	LINKS
-
 *	[CHANGELOG](./CHANGELOG.md)
 *	[Homepage](https://github.com/YounGoat/nodejs.shadowing)
-
-##	APIs
-
-```javascript
-/* boolean */ shadowing(/* object | Array */ origin, /* object | Array */  shadow);
-```
 
 ##	Get Started
 
@@ -38,47 +32,46 @@ __Light-weighted object/array analyse tool.__
 var shadowing = require('shadowing');
 
 shadowing(
-	{ name: 'YounGoat', gender: 'male' },
-	{ gender: 'male' }
+    /* origin */ { name: 'YounGoat', gender: 'male' },
+    /* shadow */ { gender: 'male' }
 );
 // RETURN true
 
 shadowing(
-	{ linkman: { name: 'YounGoat', gender: 'male' } },
-	{ linkman: { gender: 'male' } }
+    /* origin */ { linkman: { name: 'YounGoat', gender: 'male' } },
+    /* shadow */ { linkman: { gender: 'male' } }
 );
 // RETURN true
 
 shadowing(
-	{ name: 'YounGoat', gender: 'male' },
-	{ gender: shadowing.OR('male', 'female') }
+    /* origin */ { name: 'YounGoat', gender: 'male' },
+    /* shadow */ { gender: shadowing.or('male', 'female') }
+);
+// RETURN true
+
+shadowing(
+    /* data */ 99,
+    /* definition */ shadowing.numberRange('>90 <=120')
 );
 // RETURN true
 ```
 
-##	Examples
+##	APIs
 
-We offer some examples to explain how *shadowing* works. There will be an array of test cases in each example file. A test unit is also an array with four items:
-
-```javascript
-[
-	origin,  /* The origin object/array/others */
-	shadow,  /* The shadow to be tested */
-	ifValid, /* If the shadow is valid shadow to the origin according to shadowing */
-	description
-]
-```
-
-*	[Basic Usage](./test/example/basic.json)
-*	[Shadow of Arrays](./test/example/array.json)
-*	[Logic Operators](./test/example/operator.js)
-*	[Extrem Cases](./test/example/extrem.js)
+*	boolean __shadowing__( *origin*, *shadow* )
+*	class __shadowing.Shadow__( Function *judge* )
+*	symbol __shadowing.EXIST__  
+*	shadowing.Shadow __shadowing.or__( Shadow *shadow1*, Shadow *shadow2* [, ...] )
+*	shadowing.Shadow __shadowing.and__( Shadow *shadow1*, Shadow *shadow2* [, ...] )
+*	shadowing.Shadow __shadowing.has__( string *propertyName* [, ...] )
+*	shadowing.Shadow __shadowing.hasnot__( string *propertyName* [, ...] )
+*	shadowing.Shadow __shadowing.numberRange__( string *numberRangeCode* )
 
 ##	Move Forward
 
 *	[Deep Comparation Between Objects](#deep-comparation-between-objects)
 *	[Shadow of Array](#shadow-of-array)
-*	[More Than Strict Equal](#more-than-strict-equal)
+*	[More Than Strictly Equal](#more-than-strictly-equal)
 
 ###	Deep Comparation Between Objects
 
@@ -96,12 +89,12 @@ Before, we will code like:
 
 ```javascript
 if (foo
-	&& foo.linkman
-	&& foo.linkman.gender === 'male'
-	&& foo.city
-	&& foo.city.name === 'Shanghai') {
-		// ...
-	}
+    && foo.linkman
+    && foo.linkman.gender === 'male'
+    && foo.city
+    && foo.city.name === 'Shanghai') {
+        // ...
+    }
 ```
 
 Or, [JSON Schema](http://json-schema.org) may be a more formal choice:
@@ -110,42 +103,42 @@ Or, [JSON Schema](http://json-schema.org) may be a more formal choice:
 // To run this snippet, do "npm install ajv" firstly.
 
 var foo = {
-	linkman: {
-		name: 'YounGoat',
-		gender: 'male'
-	},
-	city: {
-		name: 'Shanghai'
-	}
+    linkman: {
+        name: 'YounGoat',
+        gender: 'male'
+    },
+    city: {
+        name: 'Shanghai'
+    }
 };
 
 var schema = {
-	type: 'object',
-	properties: {
-		linkman: {
-			type: 'object',
-			properties: {
-				gender: {
-					type: 'string',
-					enum: ['male']
-				}
-			}
-		},
-		city: {
-			type: 'object',
-			properties: {
-				name: {
-					type: 'string',
-					enum: ['Shanghai']
-				}
-			}
-		}
-	}
+    type: 'object',
+    properties: {
+        linkman: {
+            type: 'object',
+            properties: {
+                gender: {
+                    type: 'string',
+                    enum: ['male']
+                }
+            }
+        },
+        city: {
+            type: 'object',
+            properties: {
+                name: {
+                    type: 'string',
+                    enum: ['Shanghai']
+                }
+            }
+        }
+    }
 };
 
 var Ajv = require('ajv');
 if ((new Ajv).validate(schema, foo)) {
-	// ...
+    // ...
 }
 ```
 
@@ -153,23 +146,23 @@ Now, it is easier and more natural to achieve the target by *shadowing*:
 
 ```javascript
 var foo = {
-	linkman: {
-		name: 'YounGoat',
-		gender: 'male'
-	},
-	city: {
-		name: 'Shanghai'
-	}
+    linkman: {
+        name: 'YounGoat',
+        gender: 'male'
+    },
+    city: {
+        name: 'Shanghai'
+    }
 };
 
 var shadow = {
-	linkman: { gender: 'male' },
-	city: { name: 'Shanghai' }
+    linkman: { gender: 'male' },
+    city: { name: 'Shanghai' }
 };
 
 var shadowing = require('shadowing');
 if (shadowing(foo, shadow)) {
-	// ...
+    // ...
 }
 ```
 
@@ -197,28 +190,22 @@ shadowing( origin, [ { gender: 'male' }] );
 // RETURN true
 ```
 
-###	More Than Strict Equal
+###	More Than Strictly Equal
 
 Sometime, we wanna make little changes. The module offers following ways for you to create shadows a little more adaptable,
 
-*	*symbol* __shadowing.EXIST__  
-*	*shadowing.Shadow* __shadowing.or__( shadow1, shadow2 [, ...] )
-*	*shadowing.Shadow* __shadowing.and__( shadow1, shadow2 [, ...] )
-*	*shadowing.Shadow* __shadowing.has__( propertyName [, ...] )
-*	*shadowing.Shadow* __shadowing.hasnot__( propertyName [, ...] )
-
 ```javascript
 var shadow = {
-	// The origin SHOULD have property "linkman".
-	linkman: shadowing.EXIST
+    // The origin SHOULD have property "linkman".
+    linkman: shadowing.EXIST
 };
 
 var shadow = {
-	// The origin SHOULD have property "linkman",
-	// and sub-property "gender" valued string "male" or "female".
-	linkman: {
-		gender: shadowing.or('male', 'female')
-	}
+    // The origin SHOULD have property "linkman",
+    // and sub-property "gender" valued string "male" or "female".
+    linkman: {
+        gender: shadowing.or('male', 'female')
+    }
 };
 
 /**
@@ -226,7 +213,26 @@ var shadow = {
  * { linkman: shadowing.EXIST, city: shadowing.EXIST }
  */
 var shadow = shadowing.and(
-	{ linkman: shadowing.EXIST },
-	{ city: shadowing.EXIST }
+    { linkman: shadowing.EXIST },
+    { city: shadowing.EXIST }
 );
 ```
+
+##	Examples
+
+We offer some examples to explain how *shadowing* works. There will be an array of test cases in each example file. A test unit is also an array with four items:
+
+```javascript
+[
+    origin,  /* The origin object/array/others */
+    shadow,  /* The shadow to be tested */
+    ifValid, /* If the shadow is valid shadow to the origin according to shadowing */
+    description
+]
+```
+
+*	[Basic Usage](./test/example/basic.json)
+*	[Shadow of Arrays](./test/example/array.json)
+*	[Logic Operators](./test/example/operator.js)
+*	[Ranged Shadow](./test/example/range.js)
+*	[Edge Cases](./test/example/edge.js)

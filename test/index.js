@@ -15,7 +15,8 @@ let unitGroups = {
 	basic: 'Basic usage',
 	array: 'Shadow of arrays',
 	operator: 'Logic operators',
-	extrem: 'Extrem cases'
+	edge: 'Edge cases',
+	range: 'Range shadow',
 };
 
 console.log('  The operator ">>>" means the left-value shadowing the right one.');

@@ -11,7 +11,6 @@ const MODULE_REQUIRE = 1
 	/* NPM */
 	
 	/* in-package */
-	, NumberRange = require('./class/NumberRange')
 
 	/* in-file */
 	, isEqualable = function(v) {
@@ -101,32 +100,50 @@ const EXIST = Symbol('defined');
 
 const or = function() {
 	var args = Array.from(arguments);
-	return new Shadow(value => 
-		!args.every(arg => !shadowing(value, arg))
-	);
+	return new Shadow((value) => {
+		var matched = false;
+		for (var i = 0; i < args.length && !matched; i++) {
+			matched = shadowing(value, args[i]);
+		}
+		return matched;
+	});
 };
 
 const and = function() {
 	var args = Array.from(arguments);
-	return new Shadow(value => 
-		args.every(arg => shadowing(value, arg))
-	);
+	return new Shadow((value) => {
+		var matched = true;
+		for (var i = 0; i < args.length && !matched; i++) {
+			matched = shadowing(value, args[i]);
+		}
+		return matched;
+	});
 };
 
 const has = function() {
 	var args = Array.from(arguments);
-	return new Shadow(value => 
-		(typeof value == 'object') && 
-		args.every(arg => value.hasOwnProperty(arg))
-	);
+	return new Shadow((value) => {
+		if (typeof value != 'object') return false;
+
+		var matched = true;
+		for (var i = 0; i < args.length && matched; i++) {
+			matched = value.hasOwnProperty(args[i]);
+		}
+		return matched;
+	});
 };
 
 const hasnot = function() {
 	var args = Array.from(arguments);
-	return new Shadow(value => 
-		(typeof value == 'object') && 
-		args.every(arg => !value.hasOwnProperty(arg))
-	);
+	return new Shadow((value) => {
+		if (typeof value != 'object') return false;
+
+		var matched = true;
+		for (var i = 0; i < args.length && matched; i++) {
+			matched = !value.hasOwnProperty(args[i]);
+		}
+		return matched;
+	});
 };
 
 const numberRange = function(rangeCode) {
