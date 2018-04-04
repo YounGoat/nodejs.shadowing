@@ -11,7 +11,7 @@ const MODULE_REQUIRE = 1
 	/* NPM */
 	
 	/* in-package */
-	, NumberRange = require('./class/NumberRange')
+	, NumberRange = require('./NumberRange')
 
 	/* in-file */
 	, isEqualable = function(v) {

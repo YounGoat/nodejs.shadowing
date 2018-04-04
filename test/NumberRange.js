@@ -8,7 +8,7 @@ var MODULE_REQUIRE
 	, noda = require('noda')
 
 	/* in-package */
-	, NumberRange = noda.inRequire('class/NumberRange')
+	, NumberRange = noda.inRequire('NumberRange')
 	;
 
 describe('NumberRange', () => {
@@ -144,5 +144,14 @@ describe('NumberRange', () => {
 		assert( range.covers(-5));
 		assert(!range.covers(0));
 		assert(!range.covers(-11));
-	});
+    });
+    
+    it('up-down difference operator +/-', () => {
+        let range = new NumberRange('87+/-1');
+        assert(!range.covers(85));
+        assert( range.covers(86));
+        assert( range.covers(87));
+        assert( range.covers(88));
+        assert(!range.covers(89));
+    });
 });

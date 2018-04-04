@@ -71,6 +71,19 @@ function NumberRange(rangeCode) {
             }
 
             // ---------------------------
+            // +/- expression.
+            if (part.indexOf('+/-') >= 0) {
+                let [ basecode, diffcode ] = part.split('+/-');
+                if (!reNumber.test(basecode) || !reNumber.test(diffcode)) throw ex;
+                
+                let base = parseFloat(basecode);
+                let diff = parseFloat(diffcode);
+
+                fns.push(num => num >= base - diff && num <= base + diff);
+                continue;
+            }
+
+            // ---------------------------
             // Two number expression.
             
             let n = part.indexOf('~');

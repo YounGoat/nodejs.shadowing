@@ -34,7 +34,7 @@ module.exports = [
 		"shadowing.numberRange"
 	],
 	[
-		99,
+		'99',
 		shadowing.numberRange('90-120'),
 		true,
 		"shadowing.numberRange"

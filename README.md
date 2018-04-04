@@ -10,9 +10,11 @@ __Light-weighted object/array analyse tool.__
 [![build status of github.com/YounGoat/nodejs.shadowing](https://travis-ci.org/YounGoat/nodejs.shadowing.svg?branch=master)](https://travis-ci.org/YounGoat/nodejs.shadowing)
 [![star github.com/YounGoat/nodejs.shadowing](https://img.shields.io/github/stars/YounGoat/nodejs.shadowing.svg?style=social&label=Star)](https://github.com/YounGoat/nodejs.shadowing/stargazers)
 
-*shadowing* offers an easy way to judge whether the object is what you want.
+##  Description
 
-![Shadowing Logo](./docs/logo.png)
+__shadowing__ offers an easy way to judge whether the object / array / string / number is what you want.
+
+![Shadowing Logo](./docs/assets/logo.png)
 
 ##	Table of Contents
 
@@ -22,6 +24,7 @@ __Light-weighted object/array analyse tool.__
 	*	[Deep Comparation Between Objects](#deep-comparation-between-objects)
 	*	[Shadow of Array](#shadow-of-array)
 	*	[More Than Strictly Equal](#more-than-strictly-equal)
+    *   [Number Range](#./docs/NumberRange.md)
 *	[Examples](#examples)
 *	[CHANGELOG](./CHANGELOG.md)
 *	[Homepage](https://github.com/YounGoat/nodejs.shadowing)
@@ -57,6 +60,13 @@ shadowing(
 ```
 
 ##	APIs
+
+```javascript
+const shadowing = require('shadowing');
+
+// Since v
+const NumberRange = require('shadowing/NumberRange');
+```
 
 *	boolean __shadowing__( *origin*, *shadow* )
 *	class __shadowing.Shadow__( Function *judge* )
@@ -216,6 +226,13 @@ var shadow = shadowing.and(
     { linkman: shadowing.EXIST },
     { city: shadowing.EXIST }
 );
+```
+
+If there is some numbers, it is usual to know whether it belongs to a number set instead of whether it equals to some exact value. [__NumberRange__](./docs/NumberRange.md) is designed for such purpose. E.g.
+```javascript
+var shadow = {
+    year: shadowing.numberRange('1980 1987 >2017')
+};
 ```
 
 ##	Examples
