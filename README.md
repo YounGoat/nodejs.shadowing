@@ -24,6 +24,7 @@ __shadowing__ offers an easy way to judge whether the object / array / string / 
 	*	[Deep Comparation Between Objects](#deep-comparation-between-objects)
 	*	[Shadow of Array](#shadow-of-array)
 	*	[More Than Strictly Equal](#more-than-strictly-equal)
+    *   [Shadowing Mode](#shadowing-mode)
     *   [Number Range](#./docs/NumberRange.md)
 *	[Examples](#examples)
 *	[CHANGELOG](./CHANGELOG.md)
@@ -69,6 +70,7 @@ const NumberRange = require('shadowing/NumberRange');
 ```
 
 *	boolean __shadowing__( *origin*, *shadow* )
+*	boolean __shadowing__( *origin*, *shadow*, string *mode* )
 *	class __shadowing.Shadow__( Function *judge* )
 *	symbol __shadowing.EXIST__  
 *	shadowing.Shadow __shadowing.or__( Shadow *shadow1*, Shadow *shadow2* [, ...] )
@@ -234,6 +236,30 @@ var shadow = {
     year: shadowing.numberRange('1980 1987 >2017')
 };
 ```
+
+### Shadowing Mode
+
+Beyond the default mode named "strict", there are other two mode available: "normal" and "loose".
+
+*   __strict__ Mode  
+    This is the default mode. Each scalar value in *origin* SHOULD find its strict equal or an instance of __shadowing.Shadow__ covering itself in *shadow*.
+
+*   __normal__ Mode  
+    This mode is close to __strict__ mode but equal is accepted as replacement of strict equal. E.g.
+    ```javascript
+    // Falsy values will shadow each other in normal mode.
+    // So do truthy values.
+
+    shadowing(0, false);
+    // RETURN false
+
+    shadowing(0, false, 'normal');
+    // RETURN true
+    ```
+
+*   __loose__ Mode  
+    Just as the name implies, this mode is looser than __normal__ mode in:
+    1.  A string may be regarded as shadow of a number if the former string can be successfully construc a __NumberRange__ which covers the latter number.
 
 ##	Examples
 

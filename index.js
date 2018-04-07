@@ -38,46 +38,64 @@ function Shadow(matcher) {
 	this.belongto = matcher;
 }
 
-var shadowing = function REDO(origin, shadow) {
-	if (isEqualable(shadow)) {
-		return origin === shadow;
+/**
+ * @param  {any}     origin
+ * @param  {any}     shadow
+ * @param  {string} [mode=strict] - Available modes including 'strict', 'normal' and 'loose'.
+ */
+var shadowing = function REDO(origin, shadow, mode = 'strict') {
+	mode = mode.toLowerCase();
+
+	if (mode == 'loose' && typeof origin == 'number' && typeof shadow == 'string') {
+		let matched = false;
+		try {
+			let range = new NumberRange(shadow);
+			matched = range.covers(origin);
+		} catch(ex) {
+			matched = false;
+		}
+		return matched;
 	}
 
-	else if (shadow instanceof Shadow) {
+	if (isEqualable(shadow)) {
+		return (mode == 'strict') ? origin === shadow : origin == shadow;
+	}
+
+	if (shadow instanceof Shadow) {
 		return shadow.belongto(origin);
 	}
 
 	// If the origin is an array, its shadow should also be an array.
-	else if (origin instanceof Array && shadow instanceof Array) {
+	if (origin instanceof Array && shadow instanceof Array) {
 		// Traverse the shadow array.
 		// If anyone is not found in the projection of origin, then return false.
 		for (var i = 0; i < shadow.length; i++) {
 
 			// The equalable item should be among the origin items.
-			if (isEqualable(shadow[i])) {
-				if (origin.indexOf(shadow[i]) >= 0) continue;
-				return false;
-			}
+			// if (isEqualable(shadow[i])) {
+			// 	if (origin.indexOf(shadow[i]) >= 0) continue;
+			// 	return false;
+			// }
 
 			// If the item is not equalable, it should be in the shadow of someone item in the origin.
-			else {
+			// else {
 				var found = false;
 				for (var j = 0; j < origin.length && !found; j++) {
-					found = REDO(origin[j], shadow[i]);
+					found = REDO(origin[j], shadow[i], mode);
 				}
 				if (found) continue;
 				return false;
-			}
+			// }
 		}
 
 		return true;
 	}
 
-	else if (origin === null) {
+	if (origin === null) {
 		return false;
 	}
 
-	else if (typeof origin == 'object' && typeof shadow == 'object') {
+	if (typeof origin == 'object' && typeof shadow == 'object') {
 		for (var key in shadow) {
 
 			if (shadow[key] == shadowing.EXIST) {
@@ -85,16 +103,14 @@ var shadowing = function REDO(origin, shadow) {
 				return false;
 			}
 
-			if (REDO(origin[key], shadow[key])) continue;
+			if (REDO(origin[key], shadow[key], mode)) continue;
 			return false;
 		}
 
 		return true;
 	}
 
-	else {
-		return false;
-	}
+	return false;
 };
 
 const EXIST = Symbol('defined');

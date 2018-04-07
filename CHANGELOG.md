@@ -2,6 +2,10 @@
 
 Notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning 2.0.0](http://semver.org/).
 
+##  [0.3.0] - Apr 7th, 2018
+
+*   Concept "mode" is introduced.
+
 ##  [0.2.0] - Apr 4th, 2018 - Milestone
 
 *   [MILESTONE] __shadowing/NumberRange__ is now be required as standalone module.
