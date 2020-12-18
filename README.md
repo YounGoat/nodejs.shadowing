@@ -64,8 +64,6 @@ shadowing(
 
 ```javascript
 const shadowing = require('shadowing');
-
-// Since v
 const NumberRange = require('shadowing/NumberRange');
 ```
 

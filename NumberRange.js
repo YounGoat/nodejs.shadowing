@@ -100,7 +100,11 @@ function NumberRange(rangeCode) {
                     throw ex;
                 }
                 let interval = [ parseFloat(left), parseFloat(right) ]
-                    .sort((a, b) => a > b);
+                    .sort((a, b) => {
+                        if (a > b) return 1;
+                        if (a < b) return -1;
+                        return 0;
+                    });
                 fns.push(
                     // This is an IIFE and the return value is an array function.
                     ( (a, b) => /*return*/ num => num >= a && num <= b )
